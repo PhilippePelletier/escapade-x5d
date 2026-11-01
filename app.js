@@ -37,6 +37,7 @@ function intro() {
     <div class="kicker">Pour tes 25 ans</div>
     <h1 class="script">Alice</h1>
     <div class="divider"><span></span>♥<span></span></div>
+    <p>Garde ta fin de semaine du 5 décembre libre.</p>
     <p>J'ai planifié ta fête. J'ai juste besoin de quelques réponses.</p>
     <div class="choices" style="margin-top:22px"><button class="primary" onclick="next()">Commencer</button></div>
   `);
