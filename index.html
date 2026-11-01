@@ -196,6 +196,8 @@ const SCENES = [
 const card = document.getElementById("card");
 let step = -1;
 let picked = new Set();
+const answers = {};
+const SHORT = ["Samedi matin", "Destination", "L'après-midi", "Le souper", "Après le souper", "Dimanche"];
 
 function dots(active) {
   return '<div class="dots">' + SCENES.map((_, i) =>
@@ -268,6 +270,7 @@ function choose(i) {
 }
 
 function showReaction(choice, reaction) {
+  answers[step] = choice;
   const last = step === SCENES.length - 1;
   render(`
     <div class="kicker">Chapitre ${step + 1} sur ${SCENES.length}</div>
@@ -293,9 +296,11 @@ function finale() {
     <div class="pack">maillot de bain · bottes chaudes<br>une tenue chic<br>ton pyjama</div>
     <div class="label">Départ dans</div>
     <div class="countdown" id="cd"></div>
+    <div class="label">Tes choix</div>
+    <div class="pack" style="font-size:17px;margin-bottom:22px">${SHORT.map((k, i) => answers[i] ? `<b>${k} :</b> ${answers[i]}` : "").filter(Boolean).join("<br>")}</div>
     <div class="choices"><button class="primary" id="yes" onclick="yes()">Oui, j'y vais !</button></div>
     <div class="thanks" id="thanks">
-      <p>Parfait. Envoie-moi un bisou pour confirmer 😘</p>
+      <p>Parfait. Envoie-moi une capture de cet écran et un bisou pour confirmer 😘</p>
       <div class="script sig">Philippe ♥</div>
     </div>
     <button class="restart" onclick="intro()">Recommencer</button>
