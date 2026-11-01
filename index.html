@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Une invitation pour toi ✨</title>
+<meta property="og:title" content="Une invitation pour toi ✨">
+<meta property="og:description" content="Ouvre-moi.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #e0bd7a;
+    --cream: #f8f0e4;
+    --blush: #f2bebb;
+    --ink: #1a2238;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    color: var(--cream);
+    background: linear-gradient(180deg, #121c33 0%, #2a2346 55%, #3b2443 100%);
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
+  }
+  #sky { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+  .star { position: absolute; border-radius: 50%; background: #fffaf0; animation: twinkle var(--d) ease-in-out infinite; opacity: .2; }
+  @keyframes twinkle { 0%,100% { opacity: .15; } 50% { opacity: var(--o); } }
+  #confetti { position: fixed; inset: 0; pointer-events: none; z-index: 5; }
+
+  main {
+    position: relative; z-index: 2;
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    padding: 28px 18px 40px;
+  }
+  .card {
+    width: 100%; max-width: 440px;
+    border: 1.5px solid var(--gold);
+    border-radius: 22px;
+    padding: 34px 26px 30px;
+    background: rgba(18, 24, 44, .55);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    box-shadow: 0 0 0 6px rgba(224,189,122,.10), 0 20px 60px rgba(0,0,0,.35);
+    text-align: center;
+  }
+  .scene { animation: rise .55s ease both; }
+  @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+  .kicker {
+    font-family: Montserrat, sans-serif; font-weight: 600;
+    font-size: 12px; letter-spacing: .28em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 10px;
+  }
+  .script { font-family: "Great Vibes", cursive; font-weight: 400; color: var(--cream); line-height: 1; }
+  h1.script { font-size: 88px; margin: 6px 0 4px; }
+  h2 { font-weight: 700; font-size: 30px; line-height: 1.2; margin: 6px 0 22px; }
+  p { font-size: 21px; line-height: 1.45; margin: 0 0 18px; }
+  .muted { opacity: .8; font-style: italic; }
+  .divider { display: flex; align-items: center; gap: 12px; justify-content: center; margin: 6px 0 20px; color: var(--blush); }
+  .divider span { height: 1px; width: 70px; background: var(--gold); opacity: .8; }
+
+  .choices { display: grid; gap: 12px; margin-top: 6px; }
+  button {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 21px; font-weight: 700;
+    color: var(--cream);
+    background: rgba(255,255,255,.06);
+    border: 1.5px solid rgba(224,189,122,.65);
+    border-radius: 14px;
+    padding: 14px 16px;
+    cursor: pointer;
+    transition: transform .12s ease, background .2s ease, border-color .2s ease;
+  }
+  button:hover { background: rgba(224,189,122,.14); border-color: var(--gold); }
+  button:active { transform: scale(.98); }
+  button.primary {
+    background: linear-gradient(180deg, #e8c98d, #cfa65f);
+    color: var(--ink); border: none;
+    font-family: Montserrat, sans-serif; font-size: 15px; font-weight: 600;
+    letter-spacing: .12em; text-transform: uppercase;
+    padding: 16px 22px;
+  }
+  .reaction {
+    font-size: 22px; line-height: 1.45;
+    margin: 4px 0 24px;
+    padding: 16px 14px;
+    border-radius: 14px;
+    background: rgba(242,190,187,.10);
+    border: 1px dashed rgba(242,190,187,.45);
+  }
+  .you-chose { font-family: Montserrat, sans-serif; font-size: 12px; letter-spacing: .18em; text-transform: uppercase; color: var(--blush); margin-bottom: 8px; }
+  .dots { display: flex; gap: 8px; justify-content: center; margin-top: 26px; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(224,189,122,.3); }
+  .dot.on { background: var(--gold); }
+
+  .details { text-align: center; margin: 4px 0 18px; }
+  .details .date { font-family: Montserrat, sans-serif; font-weight: 600; color: var(--gold); letter-spacing: .08em; text-transform: uppercase; font-size: 15px; margin: 4px 0 6px; }
+  .details .line { font-size: 21px; margin: 4px 0; }
+  .label { font-family: Montserrat, sans-serif; font-size: 11px; letter-spacing: .26em; text-transform: uppercase; color: var(--gold); margin: 20px 0 6px; }
+  .pack { font-size: 20px; line-height: 1.5; }
+  .countdown { display: flex; gap: 10px; justify-content: center; margin: 10px 0 24px; }
+  .countdown div { min-width: 64px; padding: 10px 6px; border-radius: 12px; border: 1px solid rgba(224,189,122,.5); background: rgba(255,255,255,.04); }
+  .countdown b { display: block; font-size: 30px; line-height: 1; }
+  .countdown small { font-family: Montserrat, sans-serif; font-size: 10px; letter-spacing: .18em; text-transform: uppercase; opacity: .8; }
+  .thanks { display: none; margin-top: 18px; }
+  .thanks.show { display: block; animation: rise .55s ease both; }
+  .sig { font-size: 52px; margin-top: 8px; }
+  .restart { margin-top: 18px; background: none; border: none; font-family: Montserrat, sans-serif; font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: rgba(248,240,228,.55); padding: 6px; }
+  @media (max-width: 380px) { h1.script { font-size: 74px; } h2 { font-size: 26px; } p, .reaction { font-size: 19px; } }
+</style>
+</head>
+<body>
+<div id="sky"></div>
+<canvas id="confetti"></canvas>
+<main><div class="card" id="card"></div></main>
+
+<script>
+// Departure: Saturday Dec 5, 2026, 10:00 (Montreal time, EST)
+const DEPARTURE = new Date("2026-12-05T10:00:00-05:00");
+
+const SCENES = [
+  {
+    q: "Samedi 5 décembre. Il est 8 h. Tu fais quoi ?",
+    a: [
+      { t: "Je dors encore un peu", r: "Accordé. Je passe te chercher à 10 h, pas avant. ☕" },
+      { t: "Je suis déjà prête à partir", r: "J'aime l'énergie. Mais je passe te chercher à 10 h, alors prends ton café. ☕" }
+    ]
+  },
+  {
+    q: "On s'en va où ?",
+    a: [
+      { t: "En ville, dans le béton et le bruit", r: "Hmm, non. 😌 On s'en va loin de la ville." },
+      { t: "En forêt, au bord d'un lac", r: "Exactement. La destination reste secrète. Environ deux heures de route." }
+    ]
+  },
+  {
+    q: "L'après-midi, ça te tente de…",
+    a: [
+      { t: "Prendre l'air dans la nature", r: "Une marche dans un parc national. Mets tes bonnes bottes. 🌲" },
+      { t: "Goûter des bières de microbrasserie", r: "Il y en a une excellente pas loin. On décidera sur place. 🍺" }
+    ]
+  },
+  {
+    q: "Pour souper, tu choisis…",
+    a: [
+      { t: "Une pizza en pyjama", r: "Refusé. 😌 J'ai réservé mieux : un souper en huit services, dans un restaurant étoilé. Sors ta plus belle tenue." },
+      { t: "Un vrai beau souper, chic", r: "Bon choix. Huit services, dans un restaurant étoilé. Sors ta plus belle tenue. ✨" }
+    ]
+  },
+  {
+    q: "Après le souper…",
+    a: [
+      { t: "Un film sous une couverture", r: "Peut-être après. Avant, il y a un spa privé qui nous attend." },
+      { t: "Un spa chaud sous les étoiles", r: "C'est exactement ça. Spa privé, bulles et gâteau. 🥂" }
+    ]
+  },
+  {
+    q: "Dimanche matin ?",
+    a: [
+      { t: "Grasse matinée", r: "Promis. Ensuite un bon brunch, et on rentre sans se presser." },
+      { t: "Un gros brunch", r: "Oui. Et retour tranquille à la maison, sans se presser." }
+    ]
+  }
+];
+
+const card = document.getElementById("card");
+let step = -1;
+
+function dots(active) {
+  return '<div class="dots">' + SCENES.map((_, i) =>
+    '<div class="dot' + (i <= active ? ' on' : '') + '"></div>').join("") + '</div>';
+}
+
+function render(html) {
+  card.innerHTML = '<div class="scene">' + html + '</div>';
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function intro() {
+  step = -1;
+  render(`
+    <div class="kicker">Pour tes 25 ans</div>
+    <h1 class="script">Alice</h1>
+    <div class="divider"><span></span>♥<span></span></div>
+    <p>J'ai préparé quelque chose pour ta fête.</p>
+    <p class="muted">Mais c'est toi qui choisis comment ça se passe. (Presque.)</p>
+    <div class="choices" style="margin-top:22px"><button class="primary" onclick="next()">Commencer l'aventure</button></div>
+  `);
+}
+
+function next() {
+  step++;
+  if (step >= SCENES.length) return finale();
+  const s = SCENES[step];
+  render(`
+    <div class="kicker">Chapitre ${step + 1} sur ${SCENES.length}</div>
+    <h2>${s.q}</h2>
+    <div class="choices">
+      ${s.a.map((o, i) => `<button onclick="choose(${i})">${o.t}</button>`).join("")}
+    </div>
+    ${dots(step)}
+  `);
+}
+
+function choose(i) {
+  const s = SCENES[step], o = s.a[i];
+  const last = step === SCENES.length - 1;
+  render(`
+    <div class="kicker">Chapitre ${step + 1} sur ${SCENES.length}</div>
+    <div class="you-chose">Ton choix : ${o.t}</div>
+    <div class="reaction">${o.r}</div>
+    <div class="choices"><button class="primary" onclick="next()">${last ? "Voir mon invitation" : "Continuer"}</button></div>
+    ${dots(step)}
+  `);
+}
+
+function finale() {
+  render(`
+    <div class="kicker">Ton escapade d'anniversaire</div>
+    <h1 class="script" style="font-size:64px">Joyeux 25 ans</h1>
+    <div class="divider"><span></span>♥<span></span></div>
+    <div class="details">
+      <div class="date">Samedi 5 et dimanche 6 décembre</div>
+      <div class="line">Samedi, 10 h : je passe te chercher</div>
+      <div class="line muted">Destination surprise · souper étoilé · spa privé</div>
+    </div>
+    <div class="label">Dans ta valise</div>
+    <div class="pack">maillot de bain · tenue chic pour le souper<br>bottes chaudes · pyjama douillet</div>
+    <div class="label">Départ dans</div>
+    <div class="countdown" id="cd"></div>
+    <div class="choices"><button class="primary" id="yes" onclick="yes()">Oui, j'y vais !</button></div>
+    <div class="thanks" id="thanks">
+      <p>Parfait. Maintenant, envoie-moi un bisou pour confirmer. 😘</p>
+      <div class="script sig">Philippe ♥</div>
+    </div>
+    <button class="restart" onclick="intro()">Recommencer l'aventure</button>
+  `);
+  tick();
+}
+
+function tick() {
+  const el = document.getElementById("cd");
+  if (!el) return;
+  let ms = DEPARTURE - new Date();
+  if (ms <= 0) { el.innerHTML = '<div style="min-width:200px"><b>C\'est le jour J !</b></div>'; return; }
+  const d = Math.floor(ms / 864e5); ms -= d * 864e5;
+  const h = Math.floor(ms / 36e5); ms -= h * 36e5;
+  const m = Math.floor(ms / 6e4);
+  el.innerHTML = `<div><b>${d}</b><small>jours</small></div><div><b>${h}</b><small>heures</small></div><div><b>${m}</b><small>min</small></div>`;
+  setTimeout(tick, 20000);
+}
+
+function yes() {
+  document.getElementById("yes").style.display = "none";
+  document.getElementById("thanks").classList.add("show");
+  confetti();
+}
+
+// Twinkling stars
+(function stars() {
+  const sky = document.getElementById("sky");
+  for (let i = 0; i < 110; i++) {
+    const s = document.createElement("div");
+    const size = Math.random() < .85 ? 2 : 3;
+    s.className = "star";
+    s.style.width = s.style.height = size + "px";
+    s.style.left = Math.random() * 100 + "%";
+    s.style.top = Math.random() * 100 + "%";
+    s.style.setProperty("--d", (2 + Math.random() * 4).toFixed(1) + "s");
+    s.style.setProperty("--o", (0.5 + Math.random() * 0.5).toFixed(2));
+    s.style.animationDelay = (Math.random() * 4).toFixed(1) + "s";
+    sky.appendChild(s);
+  }
+})();
+
+// Confetti
+function confetti() {
+  const c = document.getElementById("confetti"), ctx = c.getContext("2d");
+  const dpr = window.devicePixelRatio || 1;
+  c.width = innerWidth * dpr; c.height = innerHeight * dpr; ctx.scale(dpr, dpr);
+  const colors = ["#e0bd7a", "#f2bebb", "#f8f0e4", "#cfa65f", "#ffd9e0"];
+  const parts = Array.from({ length: 160 }, () => ({
+    x: innerWidth / 2 + (Math.random() - .5) * 80, y: innerHeight * .55,
+    vx: (Math.random() - .5) * 12, vy: -Math.random() * 14 - 6,
+    w: 6 + Math.random() * 6, h: 8 + Math.random() * 8,
+    r: Math.random() * Math.PI, vr: (Math.random() - .5) * .3,
+    color: colors[Math.floor(Math.random() * colors.length)]
+  }));
+  let frames = 0;
+  (function draw() {
+    ctx.clearRect(0, 0, innerWidth, innerHeight);
+    parts.forEach(p => {
+      p.vy += .35; p.vx *= .99; p.x += p.vx; p.y += p.vy; p.r += p.vr;
+      ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.r);
+      ctx.fillStyle = p.color; ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h); ctx.restore();
+    });
+    if (++frames < 260) requestAnimationFrame(draw); else ctx.clearRect(0, 0, innerWidth, innerHeight);
+  })();
+}
+
+intro();
+</script>
+</body>
+</html>
