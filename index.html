@@ -60,6 +60,7 @@
   .script { font-family: "Great Vibes", cursive; font-weight: 400; color: var(--cream); line-height: 1; }
   h1.script { font-size: 88px; margin: 6px 0 4px; }
   h2 { font-weight: 700; font-size: 30px; line-height: 1.2; margin: 6px 0 22px; }
+  .hint { font-family: Montserrat, sans-serif; font-size: 12px; letter-spacing: .08em; color: var(--blush); margin: -12px 0 16px; }
   p { font-size: 21px; line-height: 1.45; margin: 0 0 18px; }
   .muted { opacity: .8; font-style: italic; }
   .divider { display: flex; align-items: center; gap: 12px; justify-content: center; margin: 6px 0 20px; color: var(--blush); }
@@ -86,6 +87,20 @@
     letter-spacing: .12em; text-transform: uppercase;
     padding: 16px 22px;
   }
+  button.primary:disabled { opacity: .45; cursor: default; }
+  .checklist { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 4px 0 18px; text-align: left; }
+  .check {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 19px; font-weight: 700; line-height: 1.15;
+    padding: 12px 12px; border-radius: 12px;
+    border: 1.5px solid rgba(224,189,122,.45);
+    background: rgba(255,255,255,.04);
+    cursor: pointer; user-select: none;
+    transition: background .15s ease, border-color .15s ease;
+  }
+  .check .box { flex: none; width: 20px; height: 20px; border-radius: 6px; border: 1.5px solid var(--gold); display: grid; place-items: center; font-size: 14px; color: var(--ink); }
+  .check.on { background: rgba(224,189,122,.18); border-color: var(--gold); }
+  .check.on .box { background: var(--gold); }
   .reaction {
     font-size: 22px; line-height: 1.45;
     margin: 4px 0 24px;
@@ -94,7 +109,7 @@
     background: rgba(242,190,187,.10);
     border: 1px dashed rgba(242,190,187,.45);
   }
-  .you-chose { font-family: Montserrat, sans-serif; font-size: 12px; letter-spacing: .18em; text-transform: uppercase; color: var(--blush); margin-bottom: 8px; }
+  .you-chose { font-family: Montserrat, sans-serif; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--blush); margin-bottom: 8px; line-height: 1.6; }
   .dots { display: flex; gap: 8px; justify-content: center; margin-top: 26px; }
   .dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(224,189,122,.3); }
   .dot.on { background: var(--gold); }
@@ -112,7 +127,7 @@
   .thanks.show { display: block; animation: rise .55s ease both; }
   .sig { font-size: 52px; margin-top: 8px; }
   .restart { margin-top: 18px; background: none; border: none; font-family: Montserrat, sans-serif; font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: rgba(248,240,228,.55); padding: 6px; }
-  @media (max-width: 380px) { h1.script { font-size: 74px; } h2 { font-size: 26px; } p, .reaction { font-size: 19px; } }
+  @media (max-width: 380px) { h1.script { font-size: 74px; } h2 { font-size: 26px; } p, .reaction { font-size: 19px; } .check { font-size: 17px; } }
 </style>
 </head>
 <body>
@@ -126,51 +141,61 @@ const DEPARTURE = new Date("2026-12-05T10:00:00-05:00");
 
 const SCENES = [
   {
-    q: "Samedi 5 décembre. Il est 8 h. Tu fais quoi ?",
+    q: "Samedi matin, on se réveille. Toi, tu…",
     a: [
-      { t: "Je dors encore un peu", r: "Accordé. Je passe te chercher à 10 h, pas avant. ☕" },
-      { t: "Je suis déjà prête à partir", r: "J'aime l'énergie. Mais je passe te chercher à 10 h, alors prends ton café. ☕" }
+      { t: "Restes au lit le plus longtemps possible", r: "Correct, mais on part vers 10 h. Je te laisse jusqu'à 9 h 15, pas plus." },
+      { t: "Te lèves en forme, prête à partir", r: "Ça, c'est nouveau. Café, puis on part vers 10 h." },
+      { t: "Veux un déjeuner au lit", r: "On verra si tu l'as mérité 😏" }
     ]
   },
   {
-    q: "On s'en va où ?",
+    q: "On s'en va où, d'après toi ?",
     a: [
-      { t: "En ville, dans le béton et le bruit", r: "Hmm, non. 😌 On s'en va loin de la ville." },
-      { t: "En forêt, au bord d'un lac", r: "Exactement. La destination reste secrète. Environ deux heures de route." }
+      { t: "En ville", r: "Bien essayé." },
+      { t: "Dans le bois", r: "Je dis rien 🤐" },
+      { t: "Quelque part au chaud 🌴", r: "J'aimerais ben, mais non." },
+      { t: "Aucune idée", r: "Parfait. C'est le but." }
     ]
   },
   {
-    q: "L'après-midi, ça te tente de…",
+    q: "L'après-midi, t'as envie de quoi ?",
     a: [
-      { t: "Prendre l'air dans la nature", r: "Une marche dans un parc national. Mets tes bonnes bottes. 🌲" },
-      { t: "Goûter des bières de microbrasserie", r: "Il y en a une excellente pas loin. On décidera sur place. 🍺" }
+      { t: "Un cocktail (ou deux)", r: "Ok, c'est noté." },
+      { t: "Une rando", r: "Noté. Apporte tes bottes, au cas." },
+      { t: "Un massage", r: "Hmm. Je prends ça en note 😉" },
+      { t: "Du magasinage", r: "Noté. Mon portefeuille un peu moins 😅" },
+      { t: "Une sieste", r: "Honnêtement, bon choix." }
     ]
   },
   {
-    q: "Pour souper, tu choisis…",
+    q: "Pour souper, t'aimerais mieux…",
     a: [
-      { t: "Une pizza en pyjama", r: "Refusé. 😌 J'ai réservé mieux : un souper en huit services, dans un restaurant étoilé. Sors ta plus belle tenue." },
-      { t: "Un vrai beau souper, chic", r: "Bon choix. Huit services, dans un restaurant étoilé. Sors ta plus belle tenue. ✨" }
+      { t: "Quelque chose de chic", r: "Fais-toi belle. Je t'en dis pas plus." },
+      { t: "Quelque chose de relax", r: "Fais-toi belle quand même. Je t'en dis pas plus." }
     ]
   },
   {
-    q: "Après le souper…",
+    q: "Après le souper, on fait quoi ?",
+    multi: true,
+    hint: "Coche tout ce que tu veux",
     a: [
-      { t: "Un film sous une couverture", r: "Peut-être après. Avant, il y a un spa privé qui nous attend." },
-      { t: "Un spa chaud sous les étoiles", r: "C'est exactement ça. Spa privé, bulles et gâteau. 🥂" }
+      "Jeux de société", "Spa", "Des drinks", "Jeux 😉",
+      "Niaiser", "Film collés", "Danser dans le salon", "Rien faire pantoute"
     ]
   },
   {
     q: "Dimanche matin ?",
     a: [
-      { t: "Grasse matinée", r: "Promis. Ensuite un bon brunch, et on rentre sans se presser." },
-      { t: "Un gros brunch", r: "Oui. Et retour tranquille à la maison, sans se presser." }
+      { t: "Grasse matinée", r: "Accordé." },
+      { t: "Gros brunch", r: "Ça se fait." },
+      { t: "Les deux", r: "Bonne réponse." }
     ]
   }
 ];
 
 const card = document.getElementById("card");
 let step = -1;
+let picked = new Set();
 
 function dots(active) {
   return '<div class="dots">' + SCENES.map((_, i) =>
@@ -188,9 +213,9 @@ function intro() {
     <div class="kicker">Pour tes 25 ans</div>
     <h1 class="script">Alice</h1>
     <div class="divider"><span></span>♥<span></span></div>
-    <p>J'ai préparé quelque chose pour ta fête.</p>
-    <p class="muted">Mais c'est toi qui choisis comment ça se passe. (Presque.)</p>
-    <div class="choices" style="margin-top:22px"><button class="primary" onclick="next()">Commencer l'aventure</button></div>
+    <p>J'ai organisé ta fête. Tu sais rien, et c'est voulu.</p>
+    <p class="muted">Mais t'as quelques choix à faire. Ils comptent. Un peu.</p>
+    <div class="choices" style="margin-top:22px"><button class="primary" onclick="next()">Go</button></div>
   `);
 }
 
@@ -198,6 +223,20 @@ function next() {
   step++;
   if (step >= SCENES.length) return finale();
   const s = SCENES[step];
+  if (s.multi) {
+    picked = new Set();
+    render(`
+      <div class="kicker">Chapitre ${step + 1} sur ${SCENES.length}</div>
+      <h2>${s.q}</h2>
+      <div class="hint">${s.hint}</div>
+      <div class="checklist">
+        ${s.a.map((t, i) => `<div class="check" id="c${i}" onclick="toggle(${i})"><span class="box"></span><span>${t}</span></div>`).join("")}
+      </div>
+      <div class="choices"><button class="primary" id="ok" disabled onclick="confirmMulti()">C'est tout</button></div>
+      ${dots(step)}
+    `);
+    return;
+  }
   render(`
     <div class="kicker">Chapitre ${step + 1} sur ${SCENES.length}</div>
     <h2>${s.q}</h2>
@@ -208,13 +247,32 @@ function next() {
   `);
 }
 
+function toggle(i) {
+  const el = document.getElementById("c" + i);
+  if (picked.has(i)) { picked.delete(i); el.classList.remove("on"); el.querySelector(".box").textContent = ""; }
+  else { picked.add(i); el.classList.add("on"); el.querySelector(".box").textContent = "✓"; }
+  document.getElementById("ok").disabled = picked.size === 0;
+}
+
+function confirmMulti() {
+  const s = SCENES[step];
+  const list = [...picked].sort((a, b) => a - b).map(i => s.a[i]);
+  const n = list.length;
+  const r = n >= 6 ? "Ambitieuse. J'aime ça." : n >= 3 ? "Ok. Je note tout." : "Juste ça ? Correct, on improvisera le reste.";
+  showReaction(list.join(" · "), r);
+}
+
 function choose(i) {
-  const s = SCENES[step], o = s.a[i];
+  const o = SCENES[step].a[i];
+  showReaction(o.t, o.r);
+}
+
+function showReaction(choice, reaction) {
   const last = step === SCENES.length - 1;
   render(`
     <div class="kicker">Chapitre ${step + 1} sur ${SCENES.length}</div>
-    <div class="you-chose">Ton choix : ${o.t}</div>
-    <div class="reaction">${o.r}</div>
+    <div class="you-chose">Ton choix : ${choice}</div>
+    <div class="reaction">${reaction}</div>
     <div class="choices"><button class="primary" onclick="next()">${last ? "Voir mon invitation" : "Continuer"}</button></div>
     ${dots(step)}
   `);
@@ -222,24 +280,25 @@ function choose(i) {
 
 function finale() {
   render(`
-    <div class="kicker">Ton escapade d'anniversaire</div>
+    <div class="kicker">Ta fête</div>
     <h1 class="script" style="font-size:64px">Joyeux 25 ans</h1>
     <div class="divider"><span></span>♥<span></span></div>
     <div class="details">
       <div class="date">Samedi 5 et dimanche 6 décembre</div>
-      <div class="line">Samedi, 10 h : je passe te chercher</div>
-      <div class="line muted">Destination surprise · souper étoilé · spa privé</div>
+      <div class="line">On part samedi vers 10 h.</div>
+      <div class="line">Retour dimanche.</div>
+      <div class="line muted">Le reste, tu vas le découvrir.</div>
     </div>
     <div class="label">Dans ta valise</div>
-    <div class="pack">maillot de bain · bottes chaudes<br>tenue chic pour le souper<br>pyjama douillet</div>
+    <div class="pack">maillot de bain · bottes chaudes<br>une tenue chic<br>ton pyjama</div>
     <div class="label">Départ dans</div>
     <div class="countdown" id="cd"></div>
     <div class="choices"><button class="primary" id="yes" onclick="yes()">Oui, j'y vais !</button></div>
     <div class="thanks" id="thanks">
-      <p>Parfait. Maintenant, envoie-moi un bisou pour confirmer. 😘</p>
+      <p>Parfait. Envoie-moi un bisou pour confirmer 😘</p>
       <div class="script sig">Philippe ♥</div>
     </div>
-    <button class="restart" onclick="intro()">Recommencer l'aventure</button>
+    <button class="restart" onclick="intro()">Recommencer</button>
   `);
   tick();
 }
@@ -248,7 +307,7 @@ function tick() {
   const el = document.getElementById("cd");
   if (!el) return;
   let ms = DEPARTURE - new Date();
-  if (ms <= 0) { el.innerHTML = '<div style="min-width:200px"><b>C\'est le jour J !</b></div>'; return; }
+  if (ms <= 0) { el.innerHTML = '<div style="min-width:200px"><b>C\'est aujourd\'hui !</b></div>'; return; }
   const d = Math.floor(ms / 864e5); ms -= d * 864e5;
   const h = Math.floor(ms / 36e5); ms -= h * 36e5;
   const m = Math.floor(ms / 6e4);
