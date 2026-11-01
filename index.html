@@ -7,29 +7,110 @@
 <meta property="og:title" content="Une invitation pour toi ✨">
 <meta property="og:description" content="Ouvre-moi.">
 <meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#3a0a18">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
 <style>
+  /* Default background: champagne (bordeaux, bubbles rising). Preview others with ?fond=rose or ?fond=sapin */
   :root {
-    --gold: #e0bd7a;
-    --cream: #f8f0e4;
-    --blush: #f2bebb;
-    --ink: #1a2238;
+    --bg:
+      radial-gradient(90% 45% at 50% 108%, rgba(240,178,150,.16) 0%, rgba(240,178,150,0) 70%),
+      radial-gradient(120% 70% at 50% -10%, #7c2236 0%, rgba(124,34,54,0) 70%),
+      linear-gradient(180deg, #4d1022 0%, #3a0a18 55%, #26060f 100%);
+    --text: #f8eee2;
+    --gold: #e3c07f;
+    --soft: #f3c3c0;
+    --card-bg: rgba(38, 6, 16, .42);
+    --card-line: #e3c07f;
+    --ring: rgba(227,192,127,.10);
+    --shadow: rgba(0,0,0,.35);
+    --btn-bg: rgba(255,255,255,.06);
+    --btn-hover: rgba(227,192,127,.15);
+    --line: rgba(227,192,127,.65);
+    --line-soft: rgba(227,192,127,.42);
+    --primary-bg: linear-gradient(180deg, #ebcd92, #d0a862);
+    --primary-text: #2a0812;
+    --tick: #2a0812;
+    --faint: rgba(248,238,226,.55);
+  }
+  body[data-fond="rose"] {
+    --bg:
+      radial-gradient(70% 40% at 15% 5%, rgba(255,255,255,.75) 0%, rgba(255,255,255,0) 70%),
+      radial-gradient(80% 50% at 90% 95%, rgba(214,150,160,.45) 0%, rgba(214,150,160,0) 70%),
+      linear-gradient(165deg, #fbe9e4 0%, #f6d3d1 50%, #efc1c4 100%);
+    --text: #5b1a2b;
+    --gold: #a2742f;
+    --soft: #9b4a5a;
+    --card-bg: rgba(255,249,246,.62);
+    --card-line: #c39a55;
+    --ring: rgba(195,154,85,.14);
+    --shadow: rgba(120,40,60,.16);
+    --btn-bg: rgba(255,255,255,.5);
+    --btn-hover: rgba(195,154,85,.16);
+    --line: rgba(162,116,47,.55);
+    --line-soft: rgba(162,116,47,.35);
+    --primary-bg: linear-gradient(180deg, #8c2b42, #6e1d31);
+    --primary-text: #fbeee6;
+    --tick: #fff;
+    --faint: rgba(91,26,43,.5);
+  }
+  body[data-fond="sapin"] {
+    --bg:
+      radial-gradient(110% 60% at 50% -5%, #2f5a48 0%, rgba(47,90,72,0) 70%),
+      linear-gradient(180deg, #1c3f32 0%, #153328 55%, #0d2119 100%);
+    --text: #f6efe3;
+    --gold: #e3c07f;
+    --soft: #f1cfc6;
+    --card-bg: rgba(8, 26, 19, .45);
+    --card-line: #e3c07f;
+    --ring: rgba(227,192,127,.10);
+    --shadow: rgba(0,0,0,.35);
+    --btn-bg: rgba(255,255,255,.06);
+    --btn-hover: rgba(227,192,127,.15);
+    --line: rgba(227,192,127,.65);
+    --line-soft: rgba(227,192,127,.42);
+    --primary-bg: linear-gradient(180deg, #ebcd92, #d0a862);
+    --primary-text: #10261d;
+    --tick: #10261d;
+    --faint: rgba(246,239,227,.55);
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; height: 100%; }
   body {
     font-family: "Cormorant Garamond", Georgia, serif;
-    color: var(--cream);
-    background: linear-gradient(180deg, #121c33 0%, #2a2346 55%, #3b2443 100%);
+    color: var(--text);
+    background: var(--bg);
+    background-attachment: fixed;
     min-height: 100vh;
     overflow-x: hidden;
     -webkit-tap-highlight-color: transparent;
   }
-  #sky { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
-  .star { position: absolute; border-radius: 50%; background: #fffaf0; animation: twinkle var(--d) ease-in-out infinite; opacity: .2; }
-  @keyframes twinkle { 0%,100% { opacity: .15; } 50% { opacity: var(--o); } }
+  #air { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+  .bub {
+    position: absolute; bottom: -20px; border-radius: 50%;
+    border: 1px solid rgba(255,236,200,.5);
+    background: radial-gradient(circle at 32% 30%, rgba(255,255,255,.75) 0 18%, rgba(255,230,180,.12) 45%, rgba(255,230,180,0) 70%);
+    animation: up var(--d) linear infinite;
+    opacity: 0;
+  }
+  @keyframes up {
+    0% { transform: translate(0, 0); opacity: 0; }
+    10% { opacity: var(--o); }
+    50% { transform: translate(var(--x), -55vh); }
+    90% { opacity: var(--o); }
+    100% { transform: translate(0, -112vh); opacity: 0; }
+  }
+  .fleck { position: absolute; bottom: -10px; border-radius: 50%; background: #c39a55; animation: up var(--d) linear infinite; opacity: 0; }
+  .flake { position: absolute; top: -12px; border-radius: 50%; background: #fff; animation: down var(--d) linear infinite; opacity: 0; }
+  @keyframes down {
+    0% { transform: translate(0, 0); opacity: 0; }
+    8% { opacity: var(--o); }
+    50% { transform: translate(var(--x), 55vh); }
+    92% { opacity: var(--o); }
+    100% { transform: translate(0, 112vh); opacity: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) { #air { display: none; } }
   #confetti { position: fixed; inset: 0; pointer-events: none; z-index: 5; }
 
   main {
@@ -40,13 +121,13 @@
   }
   .card {
     width: 100%; max-width: 440px;
-    border: 1.5px solid var(--gold);
+    border: 1.5px solid var(--card-line);
     border-radius: 22px;
     padding: 34px 26px 30px;
-    background: rgba(18, 24, 44, .55);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    box-shadow: 0 0 0 6px rgba(224,189,122,.10), 0 20px 60px rgba(0,0,0,.35);
+    background: var(--card-bg);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    box-shadow: 0 0 0 6px var(--ring), 0 20px 60px var(--shadow);
     text-align: center;
   }
   .scene { animation: rise .55s ease both; }
@@ -57,32 +138,33 @@
     font-size: 12px; letter-spacing: .28em; text-transform: uppercase;
     color: var(--gold); margin-bottom: 10px;
   }
-  .script { font-family: "Great Vibes", cursive; font-weight: 400; color: var(--cream); line-height: 1; }
+  .script { font-family: "Great Vibes", cursive; font-weight: 400; color: var(--text); line-height: 1; }
   h1.script { font-size: 88px; margin: 6px 0 4px; }
   h2 { font-weight: 700; font-size: 30px; line-height: 1.2; margin: 6px 0 22px; }
-  .hint { font-family: Montserrat, sans-serif; font-size: 12px; letter-spacing: .08em; color: var(--blush); margin: -12px 0 16px; }
+  .hint { font-family: Montserrat, sans-serif; font-size: 12px; letter-spacing: .08em; color: var(--soft); margin: -12px 0 16px; }
   p { font-size: 21px; line-height: 1.45; margin: 0 0 18px; }
   .muted { opacity: .8; font-style: italic; }
-  .divider { display: flex; align-items: center; gap: 12px; justify-content: center; margin: 6px 0 20px; color: var(--blush); }
+  .divider { display: flex; align-items: center; gap: 12px; justify-content: center; margin: 6px 0 20px; color: var(--soft); }
   .divider span { height: 1px; width: 70px; background: var(--gold); opacity: .8; }
 
   .choices { display: grid; gap: 12px; margin-top: 6px; }
   button {
     font-family: "Cormorant Garamond", Georgia, serif;
     font-size: 21px; font-weight: 700;
-    color: var(--cream);
-    background: rgba(255,255,255,.06);
-    border: 1.5px solid rgba(224,189,122,.65);
+    color: var(--text);
+    background: var(--btn-bg);
+    border: 1.5px solid var(--line);
     border-radius: 14px;
     padding: 14px 16px;
     cursor: pointer;
     transition: transform .12s ease, background .2s ease, border-color .2s ease;
   }
-  button:hover { background: rgba(224,189,122,.14); border-color: var(--gold); }
+  button:hover { background: var(--btn-hover); border-color: var(--gold); }
   button:active { transform: scale(.98); }
+  button:focus-visible, .check:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
   button.primary {
-    background: linear-gradient(180deg, #e8c98d, #cfa65f);
-    color: var(--ink); border: none;
+    background: var(--primary-bg);
+    color: var(--primary-text); border: none;
     font-family: Montserrat, sans-serif; font-size: 15px; font-weight: 600;
     letter-spacing: .12em; text-transform: uppercase;
     padding: 16px 22px;
@@ -93,13 +175,13 @@
     display: flex; align-items: center; gap: 10px;
     font-size: 19px; font-weight: 700; line-height: 1.15;
     padding: 12px 12px; border-radius: 12px;
-    border: 1.5px solid rgba(224,189,122,.45);
-    background: rgba(255,255,255,.04);
+    border: 1.5px solid var(--line-soft);
+    background: var(--btn-bg);
     cursor: pointer; user-select: none;
     transition: background .15s ease, border-color .15s ease;
   }
-  .check .box { flex: none; width: 20px; height: 20px; border-radius: 6px; border: 1.5px solid var(--gold); display: grid; place-items: center; font-size: 14px; color: var(--ink); }
-  .check.on { background: rgba(224,189,122,.18); border-color: var(--gold); }
+  .check .box { flex: none; width: 20px; height: 20px; border-radius: 6px; border: 1.5px solid var(--gold); display: grid; place-items: center; font-size: 14px; color: var(--tick); }
+  .check.on { background: var(--btn-hover); border-color: var(--gold); }
   .check.on .box { background: var(--gold); }
   .reaction {
     font-size: 22px; line-height: 1.45;
@@ -109,9 +191,9 @@
     background: rgba(242,190,187,.10);
     border: 1px dashed rgba(242,190,187,.45);
   }
-  .you-chose { font-family: Montserrat, sans-serif; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--blush); margin-bottom: 8px; line-height: 1.6; }
+  .you-chose { font-family: Montserrat, sans-serif; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--soft); margin-bottom: 8px; line-height: 1.6; }
   .dots { display: flex; gap: 8px; justify-content: center; margin-top: 26px; }
-  .dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(224,189,122,.3); }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--line-soft); }
   .dot.on { background: var(--gold); }
 
   .details { text-align: center; margin: 4px 0 18px; }
@@ -120,18 +202,18 @@
   .label { font-family: Montserrat, sans-serif; font-size: 11px; letter-spacing: .26em; text-transform: uppercase; color: var(--gold); margin: 20px 0 6px; }
   .pack { font-size: 20px; line-height: 1.5; }
   .countdown { display: flex; gap: 10px; justify-content: center; margin: 10px 0 24px; }
-  .countdown div { min-width: 64px; padding: 10px 6px; border-radius: 12px; border: 1px solid rgba(224,189,122,.5); background: rgba(255,255,255,.04); }
+  .countdown div { min-width: 64px; padding: 10px 6px; border-radius: 12px; border: 1px solid var(--line-soft); background: var(--btn-bg); }
   .countdown b { display: block; font-size: 30px; line-height: 1; }
   .countdown small { font-family: Montserrat, sans-serif; font-size: 10px; letter-spacing: .18em; text-transform: uppercase; opacity: .8; }
   .thanks { display: none; margin-top: 18px; }
   .thanks.show { display: block; animation: rise .55s ease both; }
   .sig { font-size: 52px; margin-top: 8px; }
-  .restart { margin-top: 18px; background: none; border: none; font-family: Montserrat, sans-serif; font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: rgba(248,240,228,.55); padding: 6px; }
+  .restart { margin-top: 18px; background: none; border: none; font-family: Montserrat, sans-serif; font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--faint); padding: 6px; }
   @media (max-width: 380px) { h1.script { font-size: 74px; } h2 { font-size: 26px; } p, .reaction { font-size: 19px; } .check { font-size: 17px; } }
 </style>
 </head>
 <body>
-<div id="sky"></div>
+<div id="air"></div>
 <canvas id="confetti"></canvas>
 <main><div class="card" id="card"></div></main>
 

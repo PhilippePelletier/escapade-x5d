@@ -137,19 +137,26 @@ function yes() {
   confetti();
 }
 
-(function stars() {
-  const sky = document.getElementById("sky");
-  for (let i = 0; i < 110; i++) {
-    const s = document.createElement("div");
-    const size = Math.random() < .85 ? 2 : 3;
-    s.className = "star";
-    s.style.width = s.style.height = size + "px";
-    s.style.left = Math.random() * 100 + "%";
-    s.style.top = Math.random() * 100 + "%";
-    s.style.setProperty("--d", (2 + Math.random() * 4).toFixed(1) + "s");
-    s.style.setProperty("--o", (0.5 + Math.random() * 0.5).toFixed(2));
-    s.style.animationDelay = (Math.random() * 4).toFixed(1) + "s";
-    sky.appendChild(s);
+// Background: champagne bubbles by default; ?fond=rose (gold flecks) or ?fond=sapin (snow) to preview the others.
+(function air() {
+  const fond = new URLSearchParams(location.search).get("fond");
+  if (fond === "rose" || fond === "sapin") document.body.dataset.fond = fond;
+  const kind = fond === "sapin" ? "flake" : fond === "rose" ? "fleck" : "bub";
+  const box = document.getElementById("air");
+  const count = kind === "flake" ? 70 : kind === "fleck" ? 30 : 38;
+  for (let i = 0; i < count; i++) {
+    const p = document.createElement("div");
+    const size = kind === "bub" ? 3 + Math.random() * 7 : kind === "flake" ? 2 + Math.random() * 4 : 2 + Math.random() * 3;
+    const dur = kind === "bub" ? 9 + Math.random() * 10 : kind === "flake" ? 10 + Math.random() * 12 : 14 + Math.random() * 12;
+    p.className = kind;
+    p.style.width = p.style.height = size.toFixed(1) + "px";
+    p.style.left = Math.random() * 100 + "%";
+    p.style.setProperty("--d", dur.toFixed(1) + "s");
+    p.style.setProperty("--x", ((Math.random() - .5) * 40).toFixed(0) + "px");
+    p.style.setProperty("--o", (kind === "fleck" ? .35 + Math.random() * .35 : .45 + Math.random() * .5).toFixed(2));
+    p.style.animationDelay = (-Math.random() * dur).toFixed(1) + "s";
+    if (kind === "flake" && size > 4.5) p.style.filter = "blur(1px)";
+    box.appendChild(p);
   }
 })();
 
